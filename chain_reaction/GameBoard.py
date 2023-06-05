@@ -28,6 +28,7 @@ class GameBoard:
         self.player_references: dict = {}
         self.next_color_code_gen: Generator[int, int, None] = self._next_color_code()
         self._finished: bool = False
+        self._first_pass: bool = True
 
     def hash_format(self):
         return tuple(
@@ -38,10 +39,13 @@ class GameBoard:
     def _next_color_code(self) -> Generator[int, int, None]:
         while len(self.active_players) > 1:
             for active_color_code, cnt in self.active_players.items():
+                if (not self._first_pass) and cnt == 0:
+                    continue
                 yield active_color_code
                 if self._finished:
                     break
             _ = self._pop_inactive_players()
+            self._first_pass = False
         # when only 1 player remains, return that color code only
         while 1:
             yield next(iter(self.active_players))
