@@ -66,7 +66,7 @@ class GameBoard:
             self._finished = True
         if sum(cnt > 0 for cnt in self.active_players.values()) == 1 \
                 and sum(self.active_players.values()) > self.num_players:
-            # when only 1 player has non-zero balls and winner has>1 balls
+            # when only 1 player has non-zero balls and winner has > num_players balls
             self._finished = True
         return self._finished
 
