@@ -91,7 +91,7 @@ class GameBoard:
 
     def print(self)->None:
         n = self.board_length
-        print(self.active_players)
+        # print(self.active_players)
         for i in range(n):
             print('-----' * self.board_length + '-')
             for j in range(n):
