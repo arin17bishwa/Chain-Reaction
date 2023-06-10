@@ -49,7 +49,7 @@ def main():
         board.print()
         curr_player = board.next_color_code()
         if board.finished():
-            print(f"Winner: {curr_player}")
+            print(f"Winner: {curr_player+1}")
             break
         time.sleep(0.05)
 
