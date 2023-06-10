@@ -67,6 +67,16 @@ class GameBoard:
     def _is_valid_position(self, x: int, y: int) -> bool:
         return 0 <= x < self.board_length and 0 <= y < self.board_length
 
+    def is_valid_move(self, move:Tuple[int,int], color_code:int)->bool:
+        if not self._is_valid_position(*move):
+            print(f"Invalid move. Given co-ordinates ({move[0]+1},{move[1]+1}) are outside of the board.")
+            return False
+        x,y=move
+        if self.board[x][y].color_code not in (color_code, -1):
+            print("Invalid move. Cell already occupied by opponent.")
+            return False
+        return True
+
     def _max_balls(self, x: int, y: int) -> int:
         if not self._is_valid_position(x, y):
             raise ValueError("Given co-ordinates ({},{}) are outside of the board.".format(x, y))
