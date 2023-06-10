@@ -24,7 +24,7 @@ def main():
     ]
 
     it = iter(sample00)
-    n = 5
+    n = 3
     p = 3
     board = GameBoard(board_length=n, num_players=p)
     curr_player = board.next_color_code()
