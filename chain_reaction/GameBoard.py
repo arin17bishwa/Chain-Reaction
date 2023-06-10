@@ -25,12 +25,6 @@ class GameBoard:
         self.next_color_code_gen: Generator[int, int, None] = self._next_color_code()
         self._finished: bool = False
 
-    def hash_format(self):
-        return tuple(
-            tuple(i)
-            for i in self.board
-        )
-
     def _next_color_code(self) -> Generator[int, int, None]:
         """this is an infinite generator"""
         first_pass:bool=True
@@ -82,10 +76,10 @@ class GameBoard:
             return 2
         return 3
 
-    def _get_neighbours(self, x: int, y: int) -> list:
+    def _get_neighbours(self, x: int, y: int) -> List[Tuple[int,int]]:
         return [(x + i, y + j) for i, j in ((0, 1), (1, 0), (-1, 0), (0, -1)) if self._is_valid_position(x + i, y + j)]
 
-    def print(self):
+    def print(self)->None:
         n = self.board_length
         print(self.active_players)
         for i in range(n):
@@ -107,9 +101,8 @@ class GameBoard:
 
         return 1
 
-    def _expand(self, x: int, y: int, new_color_code: int):
+    def _expand(self, x: int, y: int, new_color_code: int)->None:
         d = deque([self.board[x][y]])
-        self.seen = set()
         while d:
             if self._check_game_finished():
                 self._pop_inactive_players()
