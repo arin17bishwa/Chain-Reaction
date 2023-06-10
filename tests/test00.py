@@ -1,5 +1,12 @@
 """
 basic check for checking if it handles the ending cycle correctly
+
+
+Expected:
+{
+    "winner": 1,
+    "ending":{0:13}
+}
 """
 import time
 
