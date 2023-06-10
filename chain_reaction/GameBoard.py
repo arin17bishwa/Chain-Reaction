@@ -21,14 +21,9 @@ class GameBoard:
         ]
 
         self.num_players: int = num_players
-        self._turn_number: int = 1
-        self.current_player: int = 0
-        self.player_balls: List[int] = [-1] * num_players
         self.active_players = {i: 0 for i in range(num_players)}
-        self.player_references: dict = {}
         self.next_color_code_gen: Generator[int, int, None] = self._next_color_code()
         self._finished: bool = False
-        self._first_pass: bool = True
 
     def hash_format(self):
         return tuple(
@@ -37,15 +32,19 @@ class GameBoard:
         )
 
     def _next_color_code(self) -> Generator[int, int, None]:
+        """this is an infinite generator"""
+        first_pass:bool=True
         while len(self.active_players) > 1:
-            for active_color_code, cnt in self.active_players.items():
-                if (not self._first_pass) and cnt == 0:
+            for active_color_code, ball_cnt in self.active_players.items():
+                # skip player when their ball count is 0, and it isn't their first turn
+                # i.e, they got eliminated
+                if (not first_pass) and ball_cnt == 0:
                     continue
                 yield active_color_code
                 if self._finished:
                     break
             _ = self._pop_inactive_players()
-            self._first_pass = False
+            first_pass = False
         # when only 1 player remains, return that color code only
         while 1:
             yield next(iter(self.active_players))
