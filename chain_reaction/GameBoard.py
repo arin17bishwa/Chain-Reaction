@@ -99,17 +99,14 @@ class GameBoard:
             print('|')
         print('-----' * self.board_length + '-')
 
-    def emulate_tap(self, x: int, y: int, color: int, _tap: bool = True) -> int:
-        if not self._is_valid_position(x, y):
-            raise ValueError("Given co-ordinates ({},{}) are outside of the board.".format(x, y))
-        curr_cell = self.board[x][y]
-        if curr_cell.color_code not in (-1, color) and _tap:
-            print("Invalid move.")
-            return 0
+    def emulate_tap(self, x: int, y: int, color: int, _tap: bool = True) -> bool:
+        valid_move=self.is_valid_move(move=(x,y), color_code=color)
+        if not valid_move:
+            return False
         self.active_players[color] += _tap
         self._expand(x, y, color)
 
-        return 1
+        return True
 
     def _expand(self, x: int, y: int, new_color_code: int)->None:
         d = deque([self.board[x][y]])
