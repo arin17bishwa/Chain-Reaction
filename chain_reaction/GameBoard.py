@@ -1,3 +1,4 @@
+import string
 from collections import deque
 from itertools import chain
 from typing import List, Tuple, Generator
@@ -24,6 +25,9 @@ class GameBoard:
         self.active_players = {i: 0 for i in range(num_players)}
         self.next_color_code_gen: Generator[int, int, None] = self._next_color_code()
         self._finished: bool = False
+        _header_base_str=' + |'+"{:^4}|"*self.board_length
+        self._header:str=_header_base_str.format(*string.ascii_uppercase[:self.board_length])
+
 
     def _next_color_code(self) -> Generator[int, int, None]:
         """this is an infinite generator"""
@@ -90,14 +94,16 @@ class GameBoard:
         return [(x + i, y + j) for i, j in ((0, 1), (1, 0), (-1, 0), (0, -1)) if self._is_valid_position(x + i, y + j)]
 
     def print(self)->None:
-        n = self.board_length
         # print(self.active_players)
-        for i in range(n):
-            print('-----' * self.board_length + '-')
-            for j in range(n):
-                print('|' + str(self.board[i][j]), end='')
-            print('|')
-        print('-----' * self.board_length + '-')
+        print(self._header)
+        row_header_iterator = iter(string.ascii_uppercase[:self.board_length])
+        for i in range(self.board_length):
+            print(('=' if i==0 else '-') * (5 * self.board_length + 4))
+
+            _row_base_str=f" {next(row_header_iterator)} |"+'{}|'*self.board_length
+            print(_row_base_str.format(*self.board[i]))
+
+        print('-' * (5 * self.board_length + 4))
 
     def emulate_tap(self, x: int, y: int, color: int, _tap: bool = True) -> bool:
         valid_move=self.is_valid_move(move=(x,y), color_code=color)
