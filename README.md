@@ -1,5 +1,6 @@
 # Chain-Reaction
-Chain reaction game
+[Chain reaction game](https://play.google.com/store/apps/details?id=com.BuddyMattEnt.ChainReaction&pcampaignid=web_share)
+
 
 ### Input Format for moves
 Supported formats are as follows:
